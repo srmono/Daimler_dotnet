@@ -30,3 +30,4 @@ public class GetAllTrucksEndpoint : EndpointWithoutRequest<IEnumerable<TruckResp
         }));
     }
 }
+
