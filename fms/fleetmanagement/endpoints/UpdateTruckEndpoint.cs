@@ -13,9 +13,15 @@ public class UpdateTruckEndpoint : Endpoint<TruckRequest, TruckResponse>
         _truckRepository = repository;
     }
 
+    public override void Configure()
+    {
+        Verbs(Http.PUT);
+        Routes("/api/trucks/{id:int}");
+        AllowAnonymous();
+    }
+
     public override async Task HandleAsync(TruckRequest req, CancellationToken ct)
     {
-        
         
         // Fetch the truck from the repository
         var id = Route<int>("id");

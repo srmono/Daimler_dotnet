@@ -21,6 +21,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<TruckDbContext>();
+    dbContext.Database.EnsureDeleted();
     dbContext.Database.EnsureCreated(); // This will create the database and tables if they don't exist
 }
 
@@ -29,6 +30,7 @@ using (var scope = app.Services.CreateScope())
 //    .UseFastEndpoints();  // Use FastEndpoints once to handle routes
 
 app.UseDefaultExceptionHandler();
+app.UseFastEndpoints();
 
 // Run the application
 app.Run();
