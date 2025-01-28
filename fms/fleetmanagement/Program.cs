@@ -2,16 +2,18 @@ using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
 using fleetmanagement.config;
 using fleetmanagement.repositories;
+using fleetmanagement.middlware;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services
+// Add services to the container
 builder.Services.AddDbContext<TruckDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
         new MySqlServerVersion(new Version(8, 0, 25))));
 
 builder.Services.AddScoped<ITruckRepository, TruckRepository>();
-builder.Services.AddFastEndpoints();
+builder.Services.AddFastEndpoints();  // Register FastEndpoints
 
 var app = builder.Build();
 
@@ -22,20 +24,11 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.EnsureCreated(); // This will create the database and tables if they don't exist
 }
 
-// Configure middleware
-app.UseFastEndpoints();
+// Use global exception handler middleware and FastEndpoints
+// app.UseMiddleware<CustomExceptionHandlerMiddleware>()  // Custom exception handler
+//    .UseFastEndpoints();  // Use FastEndpoints once to handle routes
+
+app.UseDefaultExceptionHandler();
 
 // Run the application
 app.Run();
-
-
-
-// var builder = WebApplication.CreateBuilder(args);
-
-// var app = builder.Build();
-
-// app.MapGet("/", () => "Hello World!");
-
-// app.MapGet("/trucks", () => "Hello User Find trucks here!");
-
-// app.Run();
