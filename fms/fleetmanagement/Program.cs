@@ -7,31 +7,32 @@ using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
+// ✅ Read connection string from environment variable (for Docker support)
+var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection") 
+    ?? builder.Configuration.GetConnectionString("DefaultConnection");
+
+// ✅ Add database context with retry logic
 builder.Services.AddDbContext<TruckDbContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
-        new MySqlServerVersion(new Version(8, 0, 25))));
+    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 25)),
+        mySqlOptions => mySqlOptions.EnableRetryOnFailure() // ✅ Enables retries if MySQL isn't ready
+    )
+);
 
 builder.Services.AddScoped<ITruckRepository, TruckRepository>();
 builder.Services.AddFastEndpoints();  // Register FastEndpoints
 
 var app = builder.Build();
 
-// Ensure the database and tables are created automatically (for development environment)
+// ✅ Ensure database exists (without deleting it!)
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<TruckDbContext>();
-    dbContext.Database.EnsureDeleted();
-    dbContext.Database.EnsureCreated(); // This will create the database and tables if they don't exist
+    dbContext.Database.Migrate();  // ✅ Apply migrations instead of EnsureCreated()
 }
 
-// Use global exception handler middleware and FastEndpoints
-// app.UseMiddleware<CustomExceptionHandlerMiddleware>()  // Custom exception handler
-//    .UseFastEndpoints();  // Use FastEndpoints once to handle routes
+// ✅ Middleware for Exception Handling
 app.UseMiddleware<CustomExceptionHandlerMiddleware>();
-
-//app.UseDefaultExceptionHandler();
 app.UseFastEndpoints();
 
-// Run the application
+// ✅ Run the application
 app.Run();
