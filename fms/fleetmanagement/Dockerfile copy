@@ -1,0 +1,7 @@
+#use the official .net image as the base image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+
+COPY bin/fleetmanagement.dll app.dll
+EXPOSE 5222 
+ENTRYPOINT [ "dotnet", "app.dll" ]

@@ -8,7 +8,7 @@ public class DeleteEndpoint: EndpointWithoutRequest<bool> {
         _respository = repository;
     }
 
-      public override void Configure()
+    public override void Configure()
     {
         Verbs(Http.DELETE);
         Routes("/api/trucks/{id:int}");

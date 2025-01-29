@@ -2,7 +2,7 @@ using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
 using fleetmanagement.config;
 using fleetmanagement.repositories;
-using fleetmanagement.middlware;
+using fleetmanagement.middleware;
 using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,8 +28,9 @@ using (var scope = app.Services.CreateScope())
 // Use global exception handler middleware and FastEndpoints
 // app.UseMiddleware<CustomExceptionHandlerMiddleware>()  // Custom exception handler
 //    .UseFastEndpoints();  // Use FastEndpoints once to handle routes
+app.UseMiddleware<CustomExceptionHandlerMiddleware>();
 
-app.UseDefaultExceptionHandler();
+//app.UseDefaultExceptionHandler();
 app.UseFastEndpoints();
 
 // Run the application
