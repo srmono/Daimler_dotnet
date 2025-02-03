@@ -1,12 +1,6 @@
 {
   "trucks": [
     {
-      "id": "2",
-      "model": "Scania",
-      "status": "available",
-      "details": "Long Hauls"
-    },
-    {
       "id": "2cf2",
       "model": "TATA",
       "status": "available",
@@ -14,9 +8,15 @@
     },
     {
       "id": "bc58",
-      "model": "test",
-      "status": "available",
-      "details": "test"
+      "model": "Suzuki",
+      "status": "IN Use",
+      "details": "Mini Truck"
+    },
+    {
+      "id": "b6c1",
+      "model": "TATA",
+      "status": "Available",
+      "details": "Heavy Duty Model "
     }
   ]
 }

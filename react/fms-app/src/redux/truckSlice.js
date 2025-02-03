@@ -6,7 +6,7 @@ const API_URL = "http://localhost:5000/trucks";
 // Helper function for error handling
 const handleRequestError = (error) => error.response?.data || "An error occurred";
 
-// Async Thunks
+// Async Thunks actions
 export const fetchTrucks = createAsyncThunk("trucks/fetchTrucks", async (_, { rejectWithValue }) => {
   try {
     const { data } = await axios.get(API_URL);
@@ -102,6 +102,8 @@ const truckSlice = createSlice({
 
 export default truckSlice.reducer;
 
+
+//-----
 
 // import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // import axios from "axios";
@@ -242,7 +244,7 @@ export default truckSlice.reducer;
 
 
 
-
+// --------------------
 
 // import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // import axios from "axios";
