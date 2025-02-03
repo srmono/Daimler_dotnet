@@ -1,0 +1,22 @@
+{
+  "trucks": [
+    {
+      "id": "2",
+      "model": "Scania",
+      "status": "available",
+      "details": "Long Hauls"
+    },
+    {
+      "id": "2cf2",
+      "model": "TATA",
+      "status": "available",
+      "details": "Heavy Duty"
+    },
+    {
+      "id": "bc58",
+      "model": "test",
+      "status": "available",
+      "details": "test"
+    }
+  ]
+}

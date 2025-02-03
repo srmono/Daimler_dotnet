@@ -16,7 +16,6 @@ function LifeCycle() {
         }
 
         fetchData()
-
         return () => {
             //removing 
         }
